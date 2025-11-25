@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Contact Page (Google Forms)</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font and simple body styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #eef2ff; /* Light indigo background */
+        }
+        input, textarea {
+            transition: all 0.3s ease;
+        }
+        input:focus, textarea:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); /* Indigo ring focus */
+            border-color: #6366f1; /* Indigo border */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+    
+    <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-xl w-full" id="formContainer">
+        <!-- Header Section -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center">
+            Send Me a Message 📝
+        </h1>
+        <p class="text-md text-gray-600 mb-8 text-center" id="introText">
+            Your message will be securely submitted via Google Forms.
+        </p>
+
+        <!-- Success Message (Initially Hidden) -->
+        <div id="successMessage" class="hidden bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-lg" role="alert">
+            <p class="font-bold">Success!</p>
+            <p>Thank you for your message. I'll be in touch soon.</p>
+        </div>
+
+        <!-- Google Forms Contact Form -->
+        <!-- Note: target="_self" is removed because we are handling the submission with JavaScript -->
+        <form 
+            id="contactForm"
+            action="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse" 
+            method="POST" 
+            class="space-y-6"
+        >
+            
+            <!-- Name Field (Must use Google Form's entry ID) -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <input type="text" 
+                       id="name" 
+                       name="entry.123456789" <!-- PLACEHOLDER: Replace with your Name Field Entry ID -->
+                       required 
+                       placeholder="Your Name"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            <!-- Email Field (Must use Google Form's entry ID) -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" 
+                       id="email" 
+                       name="entry.987654321" <!-- PLACEHOLDER: Replace with your Email Field Entry ID -->
+                       required 
+                       placeholder="you@example.com"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            <!-- Message Field (Must use Google Form's entry ID) -->
+            <div>
+                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <textarea id="message" 
+                          name="entry.456789012" <!-- PLACEHOLDER: Replace with your Message Field Entry ID -->
+                          rows="4" 
+                          required 
+                          placeholder="What would you like to discuss?"
+                          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" 
+                    id="submitButton"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out transform hover:scale-[1.01]">
+                Send to Google Forms
+            </button>
+            
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="hidden text-center text-indigo-600 font-semibold mt-4">
+                Sending... Please wait.
+            </div>
+        </form>
+    </div>
+
+    <footer class="mt-8 text-sm text-gray-500">
+        Static site hosting provided by GitHub Pages.
+    </footer>
+
+    <!-- JavaScript for non-redirecting AJAX submission -->
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Stop the default form submission (which causes the redirect)
+            
+            const form = event.target;
+            const submitButton = document.getElementById('submitButton');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const successMessage = document.getElementById('successMessage');
+            
+            // 1. Prepare UI for submission
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+            loadingIndicator.classList.remove('hidden');
+            successMessage.classList.add('hidden'); // Ensure success message is hidden on new submit
+
+            // 2. Prepare Form Data
+            // We use FormData to easily capture all fields and encode them correctly.
+            const formData = new FormData(form);
+
+            try {
+                // 3. Send the request
+                // Google Forms supports cross-origin submission (CORS) but still expects the data
+                // to be submitted as if it were a regular browser form post.
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors' // Use 'no-cors' mode as we don't need to read the response, only confirm submission
+                });
+
+                // Since we use 'no-cors', the response status check is unreliable, but we proceed
+                // assuming the POST was sent successfully (the standard behavior for Google Forms).
+
+                // 4. Handle Success
+                form.classList.add('hidden'); // Hide the form
+                loadingIndicator.classList.add('hidden');
+                successMessage.classList.remove('hidden'); // Show the success message
+                document.getElementById('introText').classList.add('hidden');
+                
+            } catch (error) {
+                // 5. Handle Errors (e.g., network failure)
+                console.error('Submission Error:', error);
+                loadingIndicator.classList.add('hidden');
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                
+                // Show a simple inline error message
+                alert('Oops! There was a network issue. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
