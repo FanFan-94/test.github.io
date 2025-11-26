@@ -1,153 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Contact Page (Google Forms)</title>
-    <!-- Tailwind CSS CDN for easy styling -->
+    <title>项目数据录入表</title>
+    <!-- 引入 Tailwind CSS 以实现美观且响应式的样式 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom font and simple body styling */
-        body {
+        /* 使用 Inter 字体 */
+        :root {
             font-family: 'Inter', sans-serif;
-            background-color: #eef2ff; /* Light indigo background */
-        }
-        input, textarea {
-            transition: all 0.3s ease;
-        }
-        input:focus, textarea:focus {
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); /* Indigo ring focus */
-            border-color: #6366f1; /* Indigo border */
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
-    
-    <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-xl w-full" id="formContainer">
-        <!-- Header Section -->
-        <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center">
-            Send Me a Message 📝
-        </h1>
-        <p class="text-md text-gray-600 mb-8 text-center" id="introText">
-            Your message will be securely submitted via Google Forms.
-        </p>
+<body class="bg-gray-100 min-h-screen p-4 sm:p-8 flex items-start justify-center">
 
-        <!-- Success Message (Initially Hidden) -->
-        <div id="successMessage" class="hidden bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-lg" role="alert">
-            <p class="font-bold">Success!</p>
-            <p>Thank you for your message. I'll be in touch soon.</p>
-        </div>
+    <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 md:p-10 mt-8">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 border-b-2 pb-2 mb-2">项目数据提交中心</h1>
+            <p class="text-gray-600">请填写以下字段。所有提交的数据将自动同步到 Google 表格中。</p>
+        </header>
 
-        <!-- Google Forms Contact Form -->
-        <!-- Note: target="_self" is removed because we are handling the submission with JavaScript -->
-        <form 
-            id="contactForm"
-            action="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse" 
-            method="POST" 
-            class="space-y-6"
-        >
+        <!--
+            ⭐⭐⭐⭐⭐ 部署前的重要步骤 ⭐⭐⭐⭐⭐
             
-            <!-- Name Field (Must use Google Form's entry ID) -->
-            <div>
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                <input type="text" 
-                       id="name" 
-                       name="entry.123456789" <!-- PLACEHOLDER: Replace with your Name Field Entry ID -->
-                       required 
-                       placeholder="Your Name"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            1. 创建您的 Google 表单。
+            2. 在浏览器中打开该表单的“预填写”链接 (Pre-filled link)。
+            3. 在表单中输入一些测试数据，然后点击“获取链接”按钮。
+            4. 复制生成的链接，它包含您的表单 ID 和每个字段的 'entry.' 名称（例如: entry.123456789）。
+            5. 将 <form> 标签的 action 属性替换为您的 Google 表单的提交 URL。
+               例如：action="https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"
+            6. 将每个 <input> 标签的 name 属性替换为您的 Google 表单的实际 'entry.XXXXX' 名称。
+        -->
+
+        <form id="submissionForm" 
+              action="YOUR_GOOGLE_FORM_ACTION_URL" 
+              method="POST" 
+              target="hidden_iframe" 
+              onsubmit="submitted=true; showSuccessMessage();">
+
+            <div class="space-y-6">
+                <!-- 字段 1: 提交人姓名 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center border-b py-3">
+                    <label for="submitterName" class="font-medium text-gray-700 md:col-span-1">
+                        提交人姓名
+                    </label>
+                    <input type="text" id="submitterName" name="entry.1234567890" required
+                           placeholder="请输入您的姓名"
+                           class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                </div>
+
+                <!-- 字段 2: 项目名称 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center border-b py-3">
+                    <label for="projectName" class="font-medium text-gray-700 md:col-span-1">
+                        项目名称
+                    </label>
+                    <input type="text" id="projectName" name="entry.0987654321" required
+                           placeholder="例如: 营销活动 Q3"
+                           class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                </div>
+
+                <!-- 字段 3: 完成进度 (下拉菜单) -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center border-b py-3">
+                    <label for="progress" class="font-medium text-gray-700 md:col-span-1">
+                        完成进度
+                    </label>
+                    <select id="progress" name="entry.5432109876" required
+                            class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white transition duration-150">
+                        <option value="" disabled selected>请选择当前阶段</option>
+                        <option value="10%">10% - 刚开始</option>
+                        <option value="50%">50% - 进行中</option>
+                        <option value="90%">90% - 待审核</option>
+                        <option value="100%">100% - 已完成</option>
+                    </select>
+                </div>
+
+                <!-- 字段 4: 备注/详细说明 (多行文本) -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start border-b py-3">
+                    <label for="notes" class="font-medium text-gray-700 md:col-span-1 pt-3">
+                        备注说明
+                    </label>
+                    <textarea id="notes" name="entry.999888777" rows="4"
+                              placeholder="简述本次提交的关键点或遇到的问题..."
+                              class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150"></textarea>
+                </div>
             </div>
 
-            <!-- Email Field (Must use Google Form's entry ID) -->
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input type="email" 
-                       id="email" 
-                       name="entry.987654321" <!-- PLACEHOLDER: Replace with your Email Field Entry ID -->
-                       required 
-                       placeholder="you@example.com"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-            </div>
-
-            <!-- Message Field (Must use Google Form's entry ID) -->
-            <div>
-                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                <textarea id="message" 
-                          name="entry.456789012" <!-- PLACEHOLDER: Replace with your Message Field Entry ID -->
-                          rows="4" 
-                          required 
-                          placeholder="What would you like to discuss?"
-                          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" 
-                    id="submitButton"
-                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out transform hover:scale-[1.01]">
-                Send to Google Forms
-            </button>
-            
-            <!-- Loading Indicator -->
-            <div id="loadingIndicator" class="hidden text-center text-indigo-600 font-semibold mt-4">
-                Sending... Please wait.
+            <!-- 提交按钮 -->
+            <div class="mt-8 pt-6 border-t flex justify-end">
+                <button type="submit"
+                        class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
+                    提交数据
+                </button>
             </div>
         </form>
+
+        <!-- 成功消息模态框 -->
+        <div id="successMessage" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-xl p-8 shadow-2xl max-w-sm w-full text-center">
+                <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">提交成功！</h2>
+                <p class="text-gray-600 mb-6">您的数据已成功记录到 Google 表格中。</p>
+                <button onclick="hideSuccessMessage()" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    继续提交
+                </button>
+            </div>
+        </div>
+
+        <!-- 用于静默提交 Google 表单的隐藏 iframe -->
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {}"></iframe>
+
     </div>
 
-    <footer class="mt-8 text-sm text-gray-500">
-        Static site hosting provided by GitHub Pages.
-    </footer>
-
-    <!-- JavaScript for non-redirecting AJAX submission -->
     <script>
-        document.getElementById('contactForm').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Stop the default form submission (which causes the redirect)
-            
-            const form = event.target;
-            const submitButton = document.getElementById('submitButton');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const successMessage = document.getElementById('successMessage');
-            
-            // 1. Prepare UI for submission
-            submitButton.disabled = true;
-            submitButton.classList.add('opacity-50', 'cursor-not-allowed');
-            loadingIndicator.classList.remove('hidden');
-            successMessage.classList.add('hidden'); // Ensure success message is hidden on new submit
+        let submitted = false;
+        
+        // 确保表单提交后能显示成功消息
+        function showSuccessMessage() {
+            document.getElementById('submissionForm').reset(); // 清空表单内容
+            document.getElementById('successMessage').classList.remove('hidden');
+        }
 
-            // 2. Prepare Form Data
-            // We use FormData to easily capture all fields and encode them correctly.
-            const formData = new FormData(form);
+        function hideSuccessMessage() {
+            document.getElementById('successMessage').classList.add('hidden');
+            submitted = false; // 重置提交状态
+        }
 
-            try {
-                // 3. Send the request
-                // Google Forms supports cross-origin submission (CORS) but still expects the data
-                // to be submitted as if it were a regular browser form post.
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    mode: 'no-cors' // Use 'no-cors' mode as we don't need to read the response, only confirm submission
-                });
-
-                // Since we use 'no-cors', the response status check is unreliable, but we proceed
-                // assuming the POST was sent successfully (the standard behavior for Google Forms).
-
-                // 4. Handle Success
-                form.classList.add('hidden'); // Hide the form
-                loadingIndicator.classList.add('hidden');
-                successMessage.classList.remove('hidden'); // Show the success message
-                document.getElementById('introText').classList.add('hidden');
-                
-            } catch (error) {
-                // 5. Handle Errors (e.g., network failure)
-                console.error('Submission Error:', error);
-                loadingIndicator.classList.add('hidden');
-                submitButton.disabled = false;
-                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                
-                // Show a simple inline error message
-                alert('Oops! There was a network issue. Please try again.');
+        // 当 iframe 完成加载时（即 Google 表单接收到数据后），触发后续动作。
+        // 由于我们使用 onsubmit 事件来显示消息，此处主要用于防止页面跳转。
+        document.getElementById('hidden_iframe').onload = function() {
+            if (submitted) {
+                // 如果需要更复杂的逻辑，可以在此处添加，但 onsubmit 已经实现了主要功能。
             }
-        });
+        };
     </script>
 </body>
 </html>
