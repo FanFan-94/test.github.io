@@ -172,3 +172,47 @@ h1, h2 {
     font-weight: bold;
     color: green; /* Default success color */
 }
+
+
+ul {
+    /* Optional: Sets a width for context */
+    max-width: 600px; 
+}
+
+li {
+    /* Use display: flex on the list item to control the layout */
+    display: flex;
+    flex-wrap: wrap; /* Allows content to wrap to the next line */
+    margin-bottom: 10px;
+}
+
+li b {
+    /* The bold term should take up as little space as possible */
+    flex-shrink: 0;
+    margin-right: 5px; /* Small space after the term */
+}
+
+/* This targets the spans inside the File Formats <li> */
+.file-format-line {
+    /* Force each span to take up the full remaining width on a new line */
+    width: 100%; 
+    
+    /* Calculate the negative margin needed to pull the text back 
+       past the bold term and the bullet point. 
+       This is tricky because the bullet point width is often unknown.
+       A simpler approach is using padding-left on the entire <li> and 
+       then using negative margin-left on the content to shift it back.
+    */
+    
+    /* We'll use the simplest method: indent the second line */
+    
+    /* This rule targets the SECOND span in the sequence */
+    .file-format-line + .file-format-line {
+        /* Pushes the line over to start where the first description starts.
+           You may need to adjust the value (e.g., 80px) based on the exact 
+           width of the bold term 'File Formats:' and your list's settings.
+        */
+        padding-left: 80px; 
+        text-indent: -80px;
+    }
+}
