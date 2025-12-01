@@ -49,80 +49,12 @@
                 
 
 
-                <dl>
-                    <dt><b>Technical Details</b></dt> 
-                    <ul>
-                        <li><b>Coordinate Reference System (CRS) :</b> preferably WGS84 / UTM, but any well-documented projected CRS is acceptable </li>
-                        <li><b>File Formats:</b> 
-                            <span class="file-format-line">LAS/LAZ, GeoTIFF, Shapefile, GeoPackage, or CityJSON preferred.</span>
-                            <span class="file-format-line">Other formats such as OBJ, GML, or PLY are also acceptable.</span>
-
-                        </li>
-                        <li><b>Georeferencing:</b> All datasets must include valid spatial reference metadata. </li>
-                        <li><b>Acquisition Date:</b> All datasets should have an acquisition date later than 2020, where possible. </li>
-
-                    </ul>    
-                    
-                    
-
-                    
-                    <dt><b>Must-haves</b></dt> 
-                    <dt><b>Nice-to-haves</b></dt> 
-                    
-
-
-                    
-                    <dt><b>Coordinate Reference System (CRS)</b></dt>
-                    <dd>Any well-documented projected CRS is acceptable, preferably WGS84 / UTM.</dd>
-                
-                    <dt><b>File Formats</b></dt>
-                    <dd>LAS/LAZ, GeoTIFF, Shapefile, GeoPackage, or CityJSON preferred.</dd>
-                    <dd>Other formats such as OBJ, GML, or PLY are also acceptable.</dd>
-                
-                    <dt><b>Georeferencing</b></dt>
-                    <dd>All datasets must include valid spatial reference metadata.</dd>
-                
-                    <dt><b>Acquisition Date</b></dt>
-                    <dd>All datasets should have an acquisition date later than 2020, where possible.</dd>
-                </dl>
-
                 
             </section>            
             
             <hr>
 
-            <section class="submission-form">
-                <h2>2. Data Submission Form</h2>
-                <form id="data-call-form">
-                    <div class="form-group">
-                        <label for="submitter-name">Your Full Name **(Required)**:</label>
-                        <input type="text" id="submitter-name" name="submitter-name" required>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="submitter-email">Your Email Address **(Required)**:</label>
-                        <input type="email" id="submitter-email" name="submitter-email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="data-description">Brief Description of Your Dataset:</label>
-                        <textarea id="data-description" name="data-description" rows="5" required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="data-upload">Upload Data File (Max 20MB):</label>
-                        <input type="file" id="data-upload" name="data-upload" accept=".csv, .geojson" required>
-                    </div>
-
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="consent" name="consent" required>
-                        <label for="consent">I consent to the publication and use of this data under a Creative Commons license.</label>
-                    </div>
-
-                    <button type="submit" class="btn btn-success">Submit Data</button>
-                    <p class="form-status" id="form-message"></p>
-                </form>
-            </section>
         </div>
     </main>
 
