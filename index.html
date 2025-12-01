@@ -32,9 +32,9 @@
                例如：action="https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"
             6. 将每个 <input> 标签的 name 属性替换为您的 Google 表单的实际 'entry.XXXXX' 名称。
         -->
-
+https://docs.google.com/forms/d/e/1FAIpQLSfkK-JxGYsdNAezoaHRtRW602U3jK3R0YiDaYm_-r2_Mb-gOw/viewform?usp=pp_url&entry.1677451314=test&entry.390087358=test@tum.de
         <form id="submissionForm" 
-              action="YOUR_GOOGLE_FORM_ACTION_URL" 
+              action="https://docs.google.com/forms/d/e/1FAIpQLSfkK-JxGYsdNAezoaHRtRW602U3jK3R0YiDaYm_-r2_Mb-gOw/viewform?usp=pp_url" 
               method="POST" 
               target="hidden_iframe" 
               onsubmit="submitted=true; showSuccessMessage();">
@@ -45,7 +45,7 @@
                     <label for="submitterName" class="font-medium text-gray-700 md:col-span-1">
                         提交人姓名
                     </label>
-                    <input type="text" id="submitterName" name="entry.1234567890" required
+                    <input type="text" id="submitterName" name="entry.1677451314" required
                            placeholder="请输入您的姓名"
                            class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
                 </div>
@@ -55,7 +55,7 @@
                     <label for="projectName" class="font-medium text-gray-700 md:col-span-1">
                         项目名称
                     </label>
-                    <input type="text" id="projectName" name="entry.0987654321" required
+                    <input type="text" id="projectName" name="entry.390087358" required
                            placeholder="例如: 营销活动 Q3"
                            class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
                 </div>
