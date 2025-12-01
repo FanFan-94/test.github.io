@@ -1,145 +1,86 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>项目数据录入表</title>
-    <!-- 引入 Tailwind CSS 以实现美观且响应式的样式 -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* 使用 Inter 字体 */
-        :root {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+    <title>AI and Global Tree Database - Data Call</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100 min-h-screen p-4 sm:p-8 flex items-start justify-center">
-
-    <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 md:p-10 mt-8">
-        <header class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-800 border-b-2 pb-2 mb-2">项目数据提交中心</h1>
-            <p class="text-gray-600">请填写以下字段。所有提交的数据将自动同步到 Google 表格中。</p>
-        </header>
-
-        <!--
-            ⭐⭐⭐⭐⭐ 部署前的重要步骤 ⭐⭐⭐⭐⭐
-            
-            1. 创建您的 Google 表单。
-            2. 在浏览器中打开该表单的“预填写”链接 (Pre-filled link)。
-            3. 在表单中输入一些测试数据，然后点击“获取链接”按钮。
-            4. 复制生成的链接，它包含您的表单 ID 和每个字段的 'entry.' 名称（例如: entry.123456789）。
-            5. 将 <form> 标签的 action 属性替换为您的 Google 表单的提交 URL。
-               例如：action="https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"
-            6. 将每个 <input> 标签的 name 属性替换为您的 Google 表单的实际 'entry.XXXXX' 名称。
-        -->
-        <form id="submissionForm" 
-              action="https://docs.google.com/forms/d/e/1FAIpQLSfkK-JxGYsdNAezoaHRtRW602U3jK3R0YiDaYm_-r2_Mb-gOw/viewform?usp=pp_url" 
-              method="POST" 
-              target="hidden_iframe" 
-              onsubmit="submitted=true; showSuccessMessage();">
-
-            <div class="space-y-6">
-                <!-- 字段 1: 提交人姓名 -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center border-b py-3">
-                    <label for="submitterName" class="font-medium text-gray-700 md:col-span-1">
-                        提交人姓名
-                    </label>
-                    <input type="text" id="submitterName" name="entry.1677451314" required
-                           placeholder="请输入您的姓名"
-                           class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
-                </div>
-
-                <!-- 字段 2: 项目名称 -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center border-b py-3">
-                    <label for="projectName" class="font-medium text-gray-700 md:col-span-1">
-                        项目名称
-                    </label>
-                    <input type="text" id="projectName" name="entry.390087358" required
-                           placeholder="例如: 营销活动 Q3"
-                           class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150">
-                </div>
-
-                <!-- 字段 3: 完成进度 (下拉菜单) -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center border-b py-3">
-                    <label for="progress" class="font-medium text-gray-700 md:col-span-1">
-                        完成进度
-                    </label>
-                    <select id="progress" name="entry.5432109876" required
-                            class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white transition duration-150">
-                        <option value="" disabled selected>请选择当前阶段</option>
-                        <option value="10%">10% - 刚开始</option>
-                        <option value="50%">50% - 进行中</option>
-                        <option value="90%">90% - 待审核</option>
-                        <option value="100%">100% - 已完成</option>
-                    </select>
-                </div>
-
-                <!-- 字段 4: 备注/详细说明 (多行文本) -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start border-b py-3">
-                    <label for="notes" class="font-medium text-gray-700 md:col-span-1 pt-3">
-                        备注说明
-                    </label>
-                    <textarea id="notes" name="entry.999888777" rows="4"
-                              placeholder="简述本次提交的关键点或遇到的问题..."
-                              class="md:col-span-3 w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-500 focus:border-blue-500 transition duration-150"></textarea>
-                </div>
-            </div>
-
-            <!-- 提交按钮 -->
-            <div class="mt-8 pt-6 border-t flex justify-end">
-                <button type="submit"
-                        class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
-                    提交数据
-                </button>
-            </div>
-        </form>
-
-        <!-- 成功消息模态框 -->
-        <div id="successMessage" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 z-50">
-            <div class="bg-white rounded-xl p-8 shadow-2xl max-w-sm w-full text-center">
-                <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <h2 class="text-xl font-bold text-gray-800 mb-2">提交成功！</h2>
-                <p class="text-gray-600 mb-6">您的数据已成功记录到 Google 表格中。</p>
-                <button onclick="hideSuccessMessage()" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                    继续提交
-                </button>
-            </div>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">AI-TREE Project</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <!-- 用于静默提交 Google 表单的隐藏 iframe -->
-        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {}"></iframe>
+    <main>
+        <div class="container">
+            <section class="page-title">
+                <h1>Data Call: AI and Global Tree Database</h1>
+                <p class="subtitle">We invite submissions for tree-related data to enhance global climate models.</p>
+            </section>
 
-        <h1>Please Fill Out This Form</h1>
-    
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfkK-JxGYsdNAezoaHRtRW602U3jK3R0YiDaYm_-r2_Mb-gOw/viewform?embedded=true" width="640" height="554" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-    
-    <p>Thank you!</p>
+            <section class="instructions">
+                <h2>1. Important Instructions</h2>
+                <p>Please review the **Data Submission Guidelines** before proceeding. Your data contribution will be openly acknowledged.</p>
+                <ul>
+                    <li>**Format:** Data must be submitted in CSV or GeoJSON format.</li>
+                    <li>**Required Fields:** Ensure your dataset includes latitude, longitude, and species name.</li>
+                    <li>**Deadline:** The submission window closes on **December 31, 2025**.</li>
+                </ul>
+                <a href="#" class="btn btn-primary">Download Submission Template (CSV)</a>
+            </section>
+            
+            <hr>
 
-    </div>
+            <section class="submission-form">
+                <h2>2. Data Submission Form</h2>
+                <form id="data-call-form">
+                    <div class="form-group">
+                        <label for="submitter-name">Your Full Name **(Required)**:</label>
+                        <input type="text" id="submitter-name" name="submitter-name" required>
+                    </div>
 
-    <script>
-        let submitted = false;
-        
-        // 确保表单提交后能显示成功消息
-        function showSuccessMessage() {
-            document.getElementById('submissionForm').reset(); // 清空表单内容
-            document.getElementById('successMessage').classList.remove('hidden');
-        }
+                    <div class="form-group">
+                        <label for="submitter-email">Your Email Address **(Required)**:</label>
+                        <input type="email" id="submitter-email" name="submitter-email" required>
+                    </div>
 
-        function hideSuccessMessage() {
-            document.getElementById('successMessage').classList.add('hidden');
-            submitted = false; // 重置提交状态
-        }
+                    <div class="form-group">
+                        <label for="data-description">Brief Description of Your Dataset:</label>
+                        <textarea id="data-description" name="data-description" rows="5" required></textarea>
+                    </div>
 
-        // 当 iframe 完成加载时（即 Google 表单接收到数据后），触发后续动作。
-        // 由于我们使用 onsubmit 事件来显示消息，此处主要用于防止页面跳转。
-        document.getElementById('hidden_iframe').onload = function() {
-            if (submitted) {
-                // 如果需要更复杂的逻辑，可以在此处添加，但 onsubmit 已经实现了主要功能。
-            }
-        };
-    </script>
+                    <div class="form-group">
+                        <label for="data-upload">Upload Data File (Max 20MB):</label>
+                        <input type="file" id="data-upload" name="data-upload" accept=".csv, .geojson" required>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="consent" name="consent" required>
+                        <label for="consent">I consent to the publication and use of this data under a Creative Commons license.</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Submit Data</button>
+                    <p class="form-status" id="form-message"></p>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 AI-TREE Project. Affiliated with [Your Institution/University Name].</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
