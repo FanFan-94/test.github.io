@@ -174,45 +174,71 @@ h1, h2 {
 }
 
 
-ul {
-    /* Optional: Sets a width for context */
-    max-width: 600px; 
+/* Container and Heading Styles */
+.technical-details-container {
+    font-family: Arial, sans-serif;
+    line-height: 1.4;
+    padding: 20px;
+    max-width: 800px; /* Limits the wrapping width */
 }
 
-li {
-    /* Use display: flex on the list item to control the layout */
+/* Remove default list margins and padding */
+.styled-list {
+    list-style-type: none; /* Hide default bullet points */
+    padding-left: 20px;   /* Add custom padding for simulated bullets */
+    margin: 10px 0;
+}
+
+/* Custom bullet styling (using a pseudo-element) */
+.styled-list li {
+    position: relative;
+    margin-bottom: 15px;
+    
+    /* Set up Flexbox for alignment */
     display: flex;
-    flex-wrap: wrap; /* Allows content to wrap to the next line */
-    margin-bottom: 10px;
+    flex-wrap: wrap; 
 }
 
-li b {
-    /* The bold term should take up as little space as possible */
-    flex-shrink: 0;
-    margin-right: 5px; /* Small space after the term */
+/* Create the dash (-) bullet point */
+.styled-list li::before {
+    content: "–"; /* A dash character */
+    position: absolute;
+    left: -15px; /* Position it outside the list item content */
+    top: 0;
+    font-weight: bold;
+    color: #444; /* Dark color for the dash */
 }
 
-/* This targets the spans inside the File Formats <li> */
-.file-format-line {
-    /* Force each span to take up the full remaining width on a new line */
+/* Style for the bold term */
+.styled-list li b {
+    flex-shrink: 0; /* Ensures the term doesn't wrap */
+    margin-right: 5px; /* Space after the colon */
+    font-weight: bold;
+}
+
+/* Style for the main description line */
+.description-line {
+    /* Allows the first description line to take up remaining space */
+    flex-grow: 1; 
+}
+
+/* Style for the SECONDARY (wrapped) lines */
+.secondary-line {
+    /* Forces the line to take up the full width, wrapping it */
     width: 100%; 
     
-    /* Calculate the negative margin needed to pull the text back 
-       past the bold term and the bullet point. 
-       This is tricky because the bullet point width is often unknown.
-       A simpler approach is using padding-left on the entire <li> and 
-       then using negative margin-left on the content to shift it back.
+    /* CALCULATE INDENT: Push the line to the right to align under the description.
+       We'll use padding to create the space and negative margin to pull 
+       the text body back to the desired starting point. 
+       
+       *20px is the width of the bullet/padding. 
+       *180px is an estimate of the bold term's width.
+       
+       Total Indent = 20px (Bullet/List indent) + 180px (Term width)
     */
+    padding-left: 200px; 
+    text-indent: -180px; 
     
-    /* We'll use the simplest method: indent the second line */
-    
-    /* This rule targets the SECOND span in the sequence */
-    .file-format-line + .file-format-line {
-        /* Pushes the line over to start where the first description starts.
-           You may need to adjust the value (e.g., 80px) based on the exact 
-           width of the bold term 'File Formats:' and your list's settings.
-        */
-        padding-left: 80px; 
-        text-indent: -80px;
-    }
+    /* Use margin-top to separate the wrapped line from the line above it */
+    margin-top: 3px; 
 }
