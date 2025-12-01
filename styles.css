@@ -178,21 +178,21 @@ h1, h2 {
 .technical-details-container {
     font-family: Arial, sans-serif;
     line-height: 1.2;
-    padding: 10px;
-    max-width: 800px; /* Limits the wrapping width */
+    padding: 5px;
+    max-width: 100%; /* Limits the wrapping width */
 }
 
 /* Remove default list margins and padding */
 .styled-list {
     list-style-type: none; /* Hide default bullet points */
-    padding-left: 20px;   /* Add custom padding for simulated bullets */
-    margin: 10px 0;
+    padding-left: 5px;   /* Add custom padding for simulated bullets */
+    margin: 0px 0;
 }
 
 /* Custom bullet styling (using a pseudo-element) */
 .styled-list li {
     position: relative;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     
     /* Set up Flexbox for alignment */
     display: flex;
@@ -203,7 +203,7 @@ h1, h2 {
 .styled-list li::before {
     content: "–"; /* A dash character */
     position: absolute;
-    left: -15px; /* Position it outside the list item content */
+    left: -20px; /* Position it outside the list item content */
     top: 0;
     font-weight: bold;
     color: #444; /* Dark color for the dash */
@@ -226,19 +226,17 @@ h1, h2 {
 .secondary-line {
     /* Forces the line to take up the full width, wrapping it */
     width: 100%; 
-    
-    /* CALCULATE INDENT: Push the line to the right to align under the description.
-       We'll use padding to create the space and negative margin to pull 
-       the text body back to the desired starting point. 
-       
-       *20px is the width of the bullet/padding. 
-       *180px is an estimate of the bold term's width.
-       
-       Total Indent = 20px (Bullet/List indent) + 180px (Term width)
-    */
-    padding-left: 200px; 
-    text-indent: -180px; 
-    
+    padding-left: 200x; 
+    font-style: italic;
     /* Use margin-top to separate the wrapped line from the line above it */
     margin-top: 3px; 
+}
+
+/* Center the iframe */
+iframe {
+    display: block;
+    margin: 30px auto;
+    width: 100%;
+    max-width: var(--container-width);
+    box-sizing: border-box;
 }
