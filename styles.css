@@ -1,10 +1,10 @@
 /* 媒体查询：屏幕宽度小于等于 768px 时应用以下样式 */
 @media (max-width: 768px) {
-    .main-layout {
+    .subcontainer {
         flex-direction: column; /* 将并列布局改为上下堆叠 */
     }
 
-    .text-content {
+    .text-container {
         padding-right: 0;
         margin-bottom: 20px; /* 堆叠后，给文字内容下方留出一些空间 */
     }
@@ -69,7 +69,7 @@ body {
 .site-header {
     background-color: var(--primary-color);
     color: white;
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 .site-header .container {
@@ -114,9 +114,9 @@ main {
 h1, h2 {
     color: var(--secondary-color);
     margin-top: 30px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    border-top: 3px solid #ddd;
+    padding-top: 10px;
+    margin-top: 40px;
 
 }
 
