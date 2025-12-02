@@ -1,19 +1,32 @@
 /* 媒体查询：屏幕宽度小于等于 768px 时应用以下样式 */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .subcontainer {
         flex-direction: column; /* 将并列布局改为上下堆叠 */
     }
 
-    .text-container {
-        padding-right: 0;
-        margin-bottom: 20px; /* 堆叠后，给文字内容下方留出一些空间 */
+    .text_container {
+        padding: 0 20px;
+        margin-bottom: 0px; 
+        flex: none; /* 明确取消 Flex 属性 */
     }
 
-    .form-container {
-        /* 取消浮动效果，恢复正常流 */
-        position: static; 
+    .form_container {
+        position: static; /* 取消浮动 */
         max-height: none; 
+        width: 100%;
+        margin: 0; 
+        flex: none; /* 明确取消 Flex 属性 */
     }
+
+    iframe {
+        display: block;
+        margin: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+
 }
 
 /* Basic Reset and Variables */
@@ -52,17 +65,15 @@ body {
 }
 
 
-.text-container {
-    flex: 3; /* 占据 1/3 的宽度 */
+.text_container {
+    flex: 2.5; /* 占据 1/3 的宽度 */
 }
 
 
-.form-container {
-    flex: 3; /* 占据 1/3 的宽度 */
+.form_container {
+    flex: 2; /* 占据 1/3 的宽度 */
     position: sticky; 
     top: 20px; /* 设置表单距离视口顶部的距离 */
-    max-height: 95vh;
-    overflow-y: auto; 
 }
 
 /* Header Styling */
