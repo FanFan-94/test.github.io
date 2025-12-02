@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('data-call-form');
     const formMessage = document.getElementById('form-message');
+    const container = document.getElementById('container');
 
     form.addEventListener('submit', function(event) {
         // 1. Prevent the default form submission (which reloads the page)
