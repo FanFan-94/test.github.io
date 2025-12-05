@@ -3,130 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> AI-Building Project - Data Call</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title> Open Height Data Call</title>
+    <link rel="icon" type="image/png" href="figs/logo.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="site-header">
-        <div class="container">
+        <div class="logo-container">
             <div class="logo">Data Science in Earth Observation</div>
+            <img src="figs/tum.gif" alt="Open Height Initiative Logo"> 
         </div>
     </header>
-
     <main>
-        <div class="container">
+        <section class="page-title-background">
             <section class="page-title">
-                <h1>Data Call: Building Height Data  - Ongoing</h1>
-            </section>
+            <h1>Data Call: Building Height Data  - Ongoing</h1>
+                <h2>Purpose & Context</h2>
+                <p>Our goal is to improve transparency and accessibility in 3D building modeling, particularly in regions where high-quality height data are not yet publicly available. We are seeking to obtain building height data products to develop and release an open benchmark dataset for the research community. This dataset will support the training and evaluation of deep learning models for 3D building reconstruction and height estimation, with a particular focus on developing regions in Asia, South America, and Africa. The dataset will be made publicly available for research and educational purposes only, with full transparency regarding data provenance and usage conditions. All contributing data sources will be properly acknowledged, and any license terms will be strictly respected. </p>
 
-            <div class="subcontainer">
-                <div class = "text_container">
-                    <section class="instructions">
-                        <h2>Purpose & Context</h2>
-                        <p>Our goal is to improve transparency and accessibility in 3D building modeling, particularly in regions where high-quality height data are not yet publicly available. We are seeking to obtain building
-                            height data products to develop and release an open benchmark dataset for the research community. This dataset will support the training and evaluation of deep learning models for 3D building
-                            reconstruction and height estimation, with a particular focus on developing regions in Asia, South America, and Africa. The dataset will be made publicly available for research and educational purposes
-                            only, with full transparency regarding data provenance and usage conditions. All contributing data sources will be properly acknowledged, and any license terms will be strictly respected. </p>
-                    </section>
+            </section>    
+        </section>
 
-                    <section class="instructions">
-                        <h2>Benefits for Participants</h2>
-                        <div class="technical-details-container">
+
+
+        <section class="container">
+            <div class = "text_container">
+                <section class="benefits">
+                    <h2>Benefits for Participants</h2>
+                    <ul class="styled-list">
+                        <li>Co-authorship in the dataset publication</li>
+                        <li>Potential cooperation in follow-up model development</li>
+                        <li>Recognition on the official project website</li>
+                    </ul>
+                </section>  
+                <section class="requirements">
+                    <h2>Data Requirements</h2>
+                    <p>We are looking for height-related geospatial data that allows the derivation of individual building heights. Acceptable data types include <b>LiDAR point clouds</b>, <b>digital surface models (nDSMs)</b>, or <b>3D building models</b>.</p>
+
+                    <h3>Technical Details</h3>
+                    <ul class="styled-list">
+                        <li><b>Coordinate Reference System (CRS):</b>
+                            <span class="description-line">preferably WGS84 / UTM</span>
+                            <span class="secondary-line">other well-documented projected CRS are acceptable.</span>
+                        </li>
+                        <li><b>File Formats:</b> 
+                            <span class="description-line">preferably LAS/LAZ, GeoTIFF, Shapefile, GeoPackage, or CityJSON</span>
+                            <span class="secondary-line">other formats such as OBJ, GML, or PLY are also acceptable.</span>
+                        </li>
+                        <li><b>Georeferencing:</b><span class="description-line">All datasets must include valid spatial reference metadata.</span></li>
+                        <li><b>Acquisition Date:</b><span class="description-line">All datasets should have an acquisition date later than 2020, where possible.</span></li>
+                    </ul>
+
+                    <h3>Must Haves</h3>
+                    <ul class="styled-list">
+                        <li>Data must be observation-based ground truth data, rather than machine learning predictions</li>
+                        <li>Data must be georeferenced and cover urban areas in developing regions, at a city-scale or larger.</li>
+                        <li>Height information sufficient to derive or measure individual building heights (e.g., via point cloud elevations or nDSM differences). The absolute vertical/horizontal accuracy should be no more than 3-meter LE90/CE90; otherwise, the data will undergo our quality check procedure.</li>
+                        <li>Clear documentation of the spatial reference system, data acquisition date, method, and other metadata describing data quality.</li>
+                        <li>Legal clarity on permissions for research use and publication of derived products.</li>
+                    </ul>
+                    
+                    <h3>Nice-to-haves</h3>
+                    <ul class="styled-list">
+                        <li>Associated building footprint polygons or metadata linking height data to footprint geometries.</li>
+                        <li>A consistent tiling or indexing scheme for large areas.</li>
+                    </ul>
+                    
+                </section> 
+                <section class="licensing">
+                    <h2>Licensing & Data Usage</h2>
+                    <p>The collected data will be used solely for non-commercial, academic research, and for the creation of an open benchmark dataset to foster reproducible research and innovation in 3D building modeling, especially in developing regions.</p>
+                    <p>We request permission to use the data under a permissive open license, such as Creative Commons Attribution (CC-BY). These licenses would allow redistribution of derived data only (e.g., building height values, training features, or model evaluation subsets) while ensuring full credit and attribution to the original provider.</p>
+                    <div class="technical-details-container">
+                        <p>If redistribution of the raw data is not possible, we are happy to:</p>
                         <ul class="styled-list">
-                            <li>Co-authorship in the dataset publication</li>
-                            <li>Potential cooperation in follow-up model development</li>
-                            <li>Recognition on the official project website</li>
-                        </ul>
-                        </div>
-
-                    </section>  
-
-                    <section class="instructions">
-                        <h2>Data Requirements</h2>
-                        <p>We are looking for height-related geospatial data that allows the derivation of individual building heights. Acceptable data types include <b>LiDAR point clouds</b>, <b>digital surface models (nDSMs)</b>, or <b>3D
-                            building models</b>.</p>
-
-                        <div class="technical-details-container">
-                        <h3>Technical Details</h3>
-                            <ul class="styled-list">
-                                <li><b>Coordinate Reference System (CRS):</b>
-                                    <span class="description-line">preferably WGS84 / UTM</span>
-                                    <span class="secondary-line">other well-documented projected CRS are acceptable.</span>
-                                </li>
-                                <li><b>File Formats:</b> 
-                                    <span class="description-line">preferably LAS/LAZ, GeoTIFF, Shapefile, GeoPackage, or CityJSON</span>
-                                    <span class="secondary-line">other formats such as OBJ, GML, or PLY are also acceptable.</span>
-                                </li>
-                                <li><b>Georeferencing:</b><span class="description-line">All datasets must include valid spatial reference metadata.</span></li>
-                                <li><b>Acquisition Date:</b><span class="description-line">All datasets should have an acquisition date later than 2020, where possible.</span></li>
-                            </ul>
-                        </div>
-
-                        <div class="technical-details-container">
-                        <h3>Must Haves</h3>
-                            <ul class="styled-list">
-                                <li>Data must be observation-based ground truth data, rather than machine learning predictions</li>
-                                <li>Data must be georeferenced and cover urban areas in developing regions, at a city-scale or larger.</li>
-                                <li>Height information sufficient to derive or measure individual building heights (e.g., via point cloud elevations or nDSM differences). The absolute vertical/horizontal accuracy should be no more than 3-meter LE90/CE90; otherwise, the data will undergo our quality check procedure.</li>
-                                <li>Clear documentation of the spatial reference system, data acquisition date, method, and other metadata describing data quality.</li>
-                                <li>Legal clarity on permissions for research use and publication of derived products.</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="technical-details-container">
-                        <h3>Nice-to-haves</h3>
-                            <ul class="styled-list">
-                                <li>Associated building footprint polygons or metadata linking height data to footprint geometries.</li>
-                                <li>A consistent tiling or indexing scheme for large areas.</li>
-                            </ul>
-                        </div>
-                        
-                    </section> 
-
-                    <section class="instructions">
-                        <h2>Licensing & Data Usage</h2>
-                        <p>The collected data will be used solely for non-commercial, academic research, and for the creation of an open benchmark dataset to foster reproducible research and innovation in 3D building modeling, especially in developing regions.</p>
-                        <p>We request permission to use the data under a permissive open license, such as Creative Commons Attribution (CC-BY). These licenses would allow redistribution of derived data only (e.g., building height values, training features, or model evaluation subsets) while ensuring full credit and attribution to the original provider.</p>
-                        <div class="technical-details-container">
-                            <p>If redistribution of the raw data is not possible, we are happy to:</p>
-                            <ul class="styled-list">
-                                <li>Restrict public release to aggregated or derived products</li>
-                                <li>Include mandatory acknowledgements, attribution text, and license statements</li>
-                                <li>Operate under a data-sharing agreement or memorandum of understanding (MoU) defining scope, usage, and attribution.</li>
-                            </ul>              
-                        </div>
-                        <p><b>We are open to discussing suitable licensing terms that balance openness, recognition, and data protection.</b></p>
-                    </section>       
-
-                    <section class="instructions">
-                        <h2>Contacts</h2>
-                        <div class="technical-details-container">
-                        <p>If you have any questions, please contact us at <a href="mailto:ai4eo@tum.de">ai4eo@.tum.de</a>.</p>
-    
-                        </div>
-
-                    </section>  
-                    
-                    
-                </div>
-                <div class="form_container">
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfkK-JxGYsdNAezoaHRtRW602U3jK3R0YiDaYm_-r2_Mb-gOw/viewform?embedded=true" width="420" height="2000" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                            <li>Restrict public release to aggregated or derived products</li>
+                            <li>Include mandatory acknowledgements, attribution text, and license statements</li>
+                            <li>Operate under a data-sharing agreement or memorandum of understanding (MoU) defining scope, usage, and attribution.</li>
+                        </ul>              
+                    </div>
+                    <p><b>We are open to discussing suitable licensing terms that balance openness, recognition, and data protection.</b></p>
+                </section>         
             </div>
+            <div class="form_container">
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfkK-JxGYsdNAezoaHRtRW602U3jK3R0YiDaYm_-r2_Mb-gOw/viewform?embedded=true" width="420" height="1600" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
             </div>
+        </section>
 
-
-
-        </div>
+        <section class="page-footer-background">
+            <section class="page-footer">
+                <p><i class="fas fa-envelope"></i> <b>Please contact us at: <a href="mailto:ai4eo@tum.de">ai4eo@tum.de</a>.</b></p>
+                <p>If you have any questions or require any additional information </p> 
+            </section>  
+        </section>
 
 
     </main>
 
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2025 AI-Building Project. Affiliated with Technische Universität München</p>
+            <p>&copy; 2025 Open Height Initiative. Affiliated with Technische Universität München</p>
+            <img src="figs/bitmap.png" alt="TUM Logo" class="footer-logo"> 
+
+
         </div>
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>
